@@ -547,11 +547,45 @@
     }
 
     /* ─── RESPONSIVE ─────────────────────────────────────────── */
+
+    /* Mobile-first fixes */
+    /* Hero: stats wrap on tiny screens */
+    .hero-stats { flex-wrap: wrap; gap: 24px; }
+    /* Section padding smaller on mobile */
+    .section { padding: 64px 0; }
+    /* Feature body full padding on mobile */
+    .feature-body { padding: 40px 24px; }
+    /* Form two-col collapses to single on mobile */
+    .form-two-col { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    /* Form card less padding on mobile */
+    .form-card { padding: 24px 20px; }
+    /* Gallery arrows: smaller on mobile, don't overflow */
+    .gallery-arrow.prev { left: 4px; }
+    .gallery-arrow.next { right: 4px; }
+    /* Gallery images smaller on mobile */
+    .gallery-strip img { height: 140px; width: 200px; }
+    /* Price table font smaller on mobile */
+    .price-table { font-size: .85rem; }
+    .price-table th, .price-table td { padding: 10px 12px; }
+    /* Bar label shorter on mobile */
+    .bar-label { width: 44px; font-size: .75rem; }
+    /* Hero content less bottom padding */
+    .hero-content { padding-bottom: 60px; padding-top: 120px; }
+
+    @media (min-width: 480px) {
+      .form-two-col { grid-template-columns: 1fr 1fr; }
+      .gallery-strip img { height: 160px; width: 230px; }
+    }
     @media (min-width: 640px) {
       .usp-strip .wrap { grid-template-columns: repeat(3, 1fr); }
       .usp-item { border-bottom: none; border-right: 1px solid var(--line); padding: 32px 28px; }
       .usp-item:last-child { border-right: none; }
       .price-bottom { grid-template-columns: 1fr 1fr; }
+      .gallery-strip img { height: 180px; width: 260px; }
+      .section { padding: 96px 0; }
+      .gallery-arrow.prev { left: -16px; }
+      .gallery-arrow.next { right: -16px; }
+      .form-card { padding: 32px; }
     }
     @media (min-width: 768px) {
       .nav-links { display: flex; }
@@ -559,9 +593,12 @@
       .cards { grid-template-columns: repeat(2, 1fr); }
       .feature-grid { grid-template-columns: 1fr 1fr; }
       .feature-img { min-height: 500px; }
+      .feature-body { padding: 60px 40px; }
       .hours-layout { grid-template-columns: 1fr 1fr; }
       .kontakt-grid { grid-template-columns: 1fr 1.3fr; }
       .footer-inner { flex-direction: row; align-items: center; justify-content: space-between; }
+      .price-table { font-size: .93rem; }
+      .price-table th, .price-table td { padding: 12px 20px; }
     }
     @media (min-width: 1024px) {
       .cards { grid-template-columns: repeat(4, 1fr); }
@@ -992,7 +1029,7 @@
           <div class="form-card reveal" style="--d:100ms">
             <div id="successMsg" class="success-msg">✓ Danke für Ihre Anfrage! Wir melden uns bald bei Ihnen.</div>
             <div class="form-grid" id="contactForm">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div class="form-two-col">
                 <div class="field">
                   <label for="fname">Name *</label>
                   <input type="text" id="fname" name="name" required autocomplete="name" placeholder="Max Muster">
