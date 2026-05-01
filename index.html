@@ -388,19 +388,22 @@
     /* Bottom cards row */
     .price-bottom {
       display: grid; gap: 16px; margin-top: 20px;
+      grid-template-columns: 1fr;
     }
     .price-info-card {
       border: 1px solid rgba(15,17,32,.08); border-radius: 10px; overflow: hidden;
+      min-width: 0;
     }
     .pic-head {
       padding: 13px 20px; background: var(--navy2);
       color: var(--white); font-weight: 800; font-size: .95rem;
     }
-    .pic-body { padding: 16px 20px; }
+    .pic-body { padding: 16px 20px; overflow-x: auto; }
     .pic-body ul { list-style: none; display: grid; gap: 10px; }
     .pic-body li {
       display: flex; align-items: flex-start; gap: 10px;
       color: var(--muted); font-size: .9rem; line-height: 1.5;
+      word-break: break-word;
     }
     .pic-body li::before {
       content: ''; width: 6px; height: 6px; border-radius: 50%;
