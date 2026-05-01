@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fitness Bonaduz – Ihr lokales Fitness- und Wellnesscenter in Bonaduz, Graubünden. Persönlich, familiär, seit über 37 Jahren.">
+  <title>Fitness Bonaduz | Fitness & Wellness Bonaduz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --navy:   #0f1120;
+      --navy2:  #181b2e;
+      --red:    #d42b3a;
+      --red2:   #ff3d4e;
+      --cream:  #f5f2ed;
+      --white:  #ffffff;
+      --muted:  #7a7f99;
+      --line:   rgba(255,255,255,0.08);
+      --r:      6px;
+      --ease:   240ms cubic-bezier(.4,0,.2,1);
+      --shadow: 0 24px 64px rgba(10,12,28,.22);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--navy);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    body.no-scroll { overflow: hidden; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    :focus-visible { outline: 2px solid var(--red2); outline-offset: 3px; }
+
+    /* ─── TYPOGRAPHY ─────────────────────────────────────────── */
+    .display {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      line-height: .96;
+      letter-spacing: -.01em;
+      text-transform: uppercase;
+    }
+    .label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    /* ─── LAYOUT HELPERS ─────────────────────────────────────── */
+    .wrap { width: min(100% - 40px, 1180px); margin-inline: auto; }
+    .section { padding: 96px 0; }
+
+    /* ─── BUTTONS ────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 0 26px; min-height: 52px; border-radius: var(--r);
+      font-weight: 700; cursor: pointer; border: 2px solid transparent;
+      transition: transform var(--ease), box-shadow var(--ease), background var(--ease), color var(--ease), border-color var(--ease);
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-red  { background: var(--red); color: var(--white); border-color: var(--red); }
+    .btn-red:hover { background: var(--red2); border-color: var(--red2); box-shadow: 0 12px 32px rgba(212,43,58,.4); }
+    .btn-ghost { background: transparent; color: var(--white); border-color: rgba(255,255,255,.35); }
+    .btn-ghost:hover { background: var(--white); color: var(--navy); border-color: var(--white); }
+    .btn-dark { background: var(--navy); color: var(--white); border-color: var(--navy); }
+    .btn-dark:hover { background: var(--navy2); box-shadow: 0 10px 28px rgba(10,12,28,.3); }
+
+    /* ─── NAVBAR ─────────────────────────────────────────────── */
+    .nav-wrap {
+      position: fixed; inset: 0 0 auto; z-index: 100;
+      background: linear-gradient(to bottom, rgba(15,17,32,.55) 0%, transparent 100%);
+      transition: background var(--ease), box-shadow var(--ease);
+    }
+    .nav-wrap.solid {
+      background: rgba(15,17,32,.96);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 var(--line);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      min-height: 76px; gap: 24px;
+    }
+    .logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: 1.5rem; letter-spacing: .02em;
+      text-transform: uppercase; color: var(--white); line-height: 1;
+    }
+    .logo em { color: var(--red2); font-style: normal; }
+    .nav-links { display: none; align-items: center; gap: 4px; }
+    .nav-links a:not(.btn) {
+      color: rgba(255,255,255,.8); padding: 10px 14px; border-radius: var(--r);
+      font-weight: 600; font-size: .93rem;
+      transition: color var(--ease), background var(--ease);
+    }
+    .nav-links a:not(.btn):hover { color: var(--white); background: rgba(255,255,255,.07); }
+    .burger {
+      width: 44px; height: 44px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 5px;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--r); cursor: pointer;
+    }
+    .burger span {
+      width: 22px; height: 2px; background: var(--white); border-radius: 2px;
+      transition: transform var(--ease), opacity var(--ease);
+    }
+    .burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.active span:nth-child(2) { opacity: 0; }
+    .burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .drawer {
+      position: fixed; inset: 76px 0 0; z-index: 99;
+      background: rgba(15,17,32,.98); backdrop-filter: blur(20px);
+      padding: 24px 20px; display: flex; flex-direction: column; gap: 8px;
+      transform: translateX(100%); transition: transform var(--ease);
+    }
+    .drawer.open { transform: translateX(0); }
+    .drawer a {
+      display: block; padding: 16px; border-radius: var(--r);
+      color: var(--white); font-weight: 700; font-size: 1.1rem;
+      background: rgba(255,255,255,.05);
+      transition: background var(--ease);
+    }
+    .drawer a:hover { background: rgba(255,255,255,.1); }
+    .drawer .btn { width: 100%; justify-content: center; margin-top: 8px; }
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    .hero {
+      position: relative; min-height: 100svh;
+      display: grid; align-items: end;
+      overflow: hidden; color: var(--white);
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: var(--navy);
+    }
+    /* Real photo from old site as background */
+    .hero-img {
+      position: absolute; inset: 0;
+      background-image: url('https://files.web.host.ch/metanet5221/image/p1040334.jpg');
+      background-size: cover; background-position: center 30%;
+      opacity: .38;
+      transition: transform 8s ease;
+    }
+    .hero-img.loaded { transform: scale(1.04); }
+    /* Gradient overlay */
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to top, rgba(15,17,32,1) 0%, rgba(15,17,32,.7) 40%, rgba(15,17,32,.2) 80%),
+        linear-gradient(135deg, rgba(212,43,58,.18) 0%, transparent 60%);
+    }
+    /* Diagonal accent stripe */
+    .hero-stripe {
+      position: absolute; top: 0; right: 0; width: 35%; height: 100%;
+      background: linear-gradient(135deg, transparent 40%, rgba(212,43,58,.06) 100%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding-bottom: 80px; padding-top: 140px;
+    }
+    .hero-kicker {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(212,43,58,.18); border: 1px solid rgba(212,43,58,.35);
+      border-radius: 999px; padding: 7px 16px; margin-bottom: 22px;
+      color: var(--red2); font-weight: 700; font-size: .84rem; letter-spacing: .06em;
+    }
+    .hero-kicker::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--red2); animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50% { opacity:.5; transform:scale(.7); }
+    }
+    .hero h1 {
+      font-size: clamp(3.2rem, 9vw, 8rem);
+      margin-bottom: 20px; max-width: 900px;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.35rem);
+      color: rgba(255,255,255,.72); max-width: 560px;
+      font-weight: 500; margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+    .hero-stats {
+      display: flex; gap: 40px; margin-top: 64px;
+      padding-top: 32px; border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .hero-stat strong {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: 2.4rem; display: block;
+      color: var(--white); line-height: 1;
+    }
+    .hero-stat span { color: rgba(255,255,255,.55); font-size: .88rem; font-weight: 500; }
+    /* Scroll indicator */
+    .scroll-cue {
+      position: absolute; bottom: 28px; left: 50%;
+      transform: translateX(-50%); z-index: 3;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,.4); font-size: .72rem; letter-spacing: .1em;
+      text-transform: uppercase;
+      animation: bobble 2s ease-in-out infinite;
+    }
+    .scroll-cue svg { width: 20px; height: 20px; }
+    @keyframes bobble {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ─── USP STRIP ──────────────────────────────────────────── */
+    .usp-strip {
+      background: var(--navy2);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .usp-strip .wrap {
+      display: grid; gap: 0;
+    }
+    .usp-item {
+      display: flex; align-items: center; gap: 16px;
+      padding: 28px 0; border-bottom: 1px solid var(--line);
+      color: var(--white);
+    }
+    .usp-item:last-child { border-bottom: none; }
+    .usp-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: rgba(212,43,58,.15); border: 1px solid rgba(212,43,58,.25);
+      border-radius: var(--r); display: flex; align-items: center; justify-content: center;
+      color: var(--red2);
+    }
+    .usp-icon svg { width: 22px; height: 22px; }
+    .usp-item strong { display: block; font-weight: 700; }
+    .usp-item span { color: rgba(255,255,255,.5); font-size: .88rem; }
+
+    /* ─── SECTION LABEL ──────────────────────────────────────── */
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--red); margin-bottom: 14px;
+    }
+    .section-tag::before {
+      content: ''; width: 28px; height: 2px; background: var(--red); border-radius: 2px;
+    }
+    .section-h {
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      line-height: .95; margin-bottom: 16px;
+    }
+    .section-lead {
+      color: var(--muted); font-size: 1.06rem;
+      max-width: 560px; line-height: 1.65;
+    }
+
+    /* ─── ANGEBOT ────────────────────────────────────────────── */
+    .angebot { background: var(--cream); }
+    .angebot-header { margin-bottom: 52px; }
+    .cards { display: grid; gap: 20px; }
+    .card {
+      background: var(--white); border-radius: 10px;
+      overflow: hidden; border: 1px solid rgba(15,17,32,.07);
+      box-shadow: 0 4px 24px rgba(10,12,28,.07);
+      transition: transform var(--ease), box-shadow var(--ease);
+      display: flex; flex-direction: column;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .card-img {
+      height: 220px; overflow: hidden; background: var(--navy);
+    }
+    .card-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s ease; filter: brightness(.88);
+    }
+    .card:hover .card-img img { transform: scale(1.06); }
+    .card-body { padding: 24px; display: flex; flex-direction: column; flex: 1; gap: 12px; }
+    .card-icon {
+      width: 42px; height: 42px; background: var(--red); border-radius: var(--r);
+      display: flex; align-items: center; justify-content: center; color: var(--white);
+    }
+    .card-icon svg { width: 22px; height: 22px; }
+    .card h3 { font-size: 1.22rem; font-weight: 800; color: var(--navy); }
+    .card p { color: var(--muted); font-size: .95rem; line-height: 1.65; flex: 1; }
+    .card-link {
+      display: inline-flex; align-items: center; gap: 7px;
+      color: var(--red); font-weight: 700; font-size: .93rem; margin-top: 4px;
+      transition: gap var(--ease);
+    }
+    .card-link:hover { gap: 12px; }
+    .card-link svg { width: 16px; height: 16px; }
+
+    /* ─── GALLERY STRIP ──────────────────────────────────────── */
+    .gallery-strip {
+      display: flex; gap: 8px; overflow-x: auto; padding: 4px 0;
+      scrollbar-width: none;
+    }
+    .gallery-strip::-webkit-scrollbar { display: none; }
+    .gallery-strip img {
+      height: 180px; width: 260px; flex-shrink: 0;
+      object-fit: cover; border-radius: 6px; filter: brightness(.85);
+      transition: filter var(--ease), transform var(--ease);
+    }
+    .gallery-strip img:hover { filter: brightness(1); transform: scale(1.02); }
+
+    /* ─── PHOTO FEATURE ──────────────────────────────────────── */
+    .feature {
+      background: var(--navy);
+      color: var(--white);
+      overflow: hidden;
+    }
+    .feature-grid {
+      display: grid; gap: 0; align-items: stretch;
+    }
+    .feature-img {
+      min-height: 340px; overflow: hidden;
+    }
+    .feature-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(.75); display: block;
+    }
+    .feature-body {
+      padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; gap: 20px;
+    }
+    .feature-body .section-tag { color: var(--red2); }
+    .feature-body .section-tag::before { background: var(--red2); }
+    .feature-body .section-h { color: var(--white); }
+    .feature-body .section-lead { color: rgba(255,255,255,.55); max-width: 440px; }
+    .feature-tel {
+      display: flex; align-items: center; gap: 14px;
+      margin-top: 12px; padding: 18px 22px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--r); width: fit-content;
+    }
+    .feature-tel svg { width: 22px; height: 22px; color: var(--red2); }
+    .feature-tel strong { display: block; font-size: 1.3rem; color: var(--white); }
+    .feature-tel span { font-size: .8rem; color: rgba(255,255,255,.45); }
+
+    /* ─── PREISE ─────────────────────────────────────────────── */
+    .preise { background: var(--white); }
+    /* Single unified table card */
+    .price-mega {
+      margin-top: 48px; border: 1px solid rgba(15,17,32,.08);
+      border-radius: 10px; overflow: hidden; background: var(--white);
+      box-shadow: 0 4px 24px rgba(10,12,28,.06);
+    }
+    .price-mega-head {
+      padding: 18px 28px; background: var(--navy);
+      color: var(--white); font-weight: 800; font-size: 1.08rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .price-mega-head span { color: rgba(255,255,255,.45); font-size: .82rem; font-weight: 500; }
+    .price-table {
+      width: 100%; border-collapse: collapse; font-size: .93rem;
+      min-width: 520px;
+    }
+    .price-table th {
+      padding: 11px 20px; text-align: left; font-size: .7rem;
+      font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); background: var(--cream);
+      border-bottom: 2px solid rgba(15,17,32,.08); white-space: nowrap;
+    }
+    .price-table th:not(:first-child) { text-align: right; }
+    .price-table td {
+      padding: 12px 20px; border-bottom: 1px solid rgba(15,17,32,.05);
+      color: var(--navy); vertical-align: middle;
+    }
+    .price-table td:not(:first-child) {
+      text-align: right; font-weight: 700; white-space: nowrap;
+    }
+    .price-table tbody tr:last-child td { border-bottom: none; }
+    .price-table tbody tr:hover { background: rgba(212,43,58,.04); }
+    /* Section divider rows */
+    .price-table .section-row td {
+      padding: 10px 20px 6px; background: var(--navy2);
+      color: rgba(255,255,255,.7); font-size: .72rem; font-weight: 800;
+      letter-spacing: .1em; text-transform: uppercase; border: none;
+      text-align: left !important;
+    }
+    /* Bottom cards row */
+    .price-bottom {
+      display: grid; gap: 16px; margin-top: 20px;
+    }
+    .price-info-card {
+      border: 1px solid rgba(15,17,32,.08); border-radius: 10px; overflow: hidden;
+    }
+    .pic-head {
+      padding: 13px 20px; background: var(--navy2);
+      color: var(--white); font-weight: 800; font-size: .95rem;
+    }
+    .pic-body { padding: 16px 20px; }
+    .pic-body ul { list-style: none; display: grid; gap: 10px; }
+    .pic-body li {
+      display: flex; align-items: flex-start; gap: 10px;
+      color: var(--muted); font-size: .9rem; line-height: 1.5;
+    }
+    .pic-body li::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--red); flex-shrink: 0; margin-top: 7px;
+    }
+    .ticket-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 11px 0; border-bottom: 1px solid rgba(15,17,32,.07); font-size: .93rem;
+    }
+    .ticket-row:last-child { border: none; padding-bottom: 0; }
+    .ticket-row strong { color: var(--navy); font-weight: 700; }
+    .kk-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(212,43,58,.08); border: 1px solid rgba(212,43,58,.2);
+      border-radius: 999px; padding: 10px 20px; color: var(--navy);
+      font-weight: 700; font-size: .88rem; margin-top: 8px;
+    }
+    .kk-badge svg { width: 18px; height: 18px; color: var(--red); }
+    .price-fn { color: var(--muted); font-size: .85rem; margin-top: 20px; line-height: 1.6; }
+
+    /* ─── GALLERY WITH ARROWS ────────────────────────────────── */
+    .gallery-wrap { position: relative; margin-top: 28px; }
+    .gallery-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--white); border: 1px solid rgba(15,17,32,.12);
+      box-shadow: 0 4px 16px rgba(10,12,28,.15);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--navy);
+      transition: background var(--ease), color var(--ease), box-shadow var(--ease);
+    }
+    .gallery-arrow:hover { background: var(--red); color: var(--white); border-color: var(--red); box-shadow: 0 6px 20px rgba(212,43,58,.35); }
+    .gallery-arrow svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .gallery-arrow.prev { left: -16px; }
+    .gallery-arrow.next { right: -16px; }
+
+    /* ─── ÖFFNUNGSZEITEN ─────────────────────────────────────── */
+    .hours { background: var(--cream); }
+    .hours-layout { display: grid; gap: 24px; margin-top: 52px; }
+    .hours-card {
+      background: var(--white); border-radius: 10px;
+      border: 1px solid rgba(15,17,32,.08);
+      box-shadow: 0 4px 24px rgba(10,12,28,.05);
+      overflow: hidden;
+    }
+    .hours-head {
+      padding: 20px 24px; background: var(--navy);
+      color: var(--white); font-weight: 800; font-size: 1.05rem;
+    }
+    .hours-body { padding: 8px 0; }
+    .hours-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 24px; border-bottom: 1px solid rgba(15,17,32,.06);
+    }
+    .hours-row:last-child { border: none; }
+    .hours-row .day { font-weight: 700; color: var(--navy); }
+    .hours-row .time { color: var(--muted); font-weight: 500; }
+    .hours-row.today { background: rgba(212,43,58,.04); }
+    .hours-row.today .day { color: var(--red); }
+    /* Visual bar chart */
+    .bar-chart { padding: 24px; display: grid; gap: 14px; }
+    .bar-row { display: flex; align-items: center; gap: 14px; font-size: .82rem; }
+    .bar-label { width: 56px; color: var(--muted); font-weight: 600; flex-shrink: 0; }
+    .bar-track {
+      flex: 1; height: 8px; background: rgba(15,17,32,.07);
+      border-radius: 999px; position: relative; overflow: hidden;
+    }
+    .bar-fill {
+      position: absolute; top: 0; height: 100%;
+      background: linear-gradient(90deg, var(--red), var(--red2));
+      border-radius: 999px;
+      left: var(--s); width: var(--w);
+    }
+    .bar-times { display: flex; justify-content: space-between; font-size: .72rem; color: var(--muted); margin-top: 8px; padding: 0 2px; }
+
+    /* ─── KONTAKT ────────────────────────────────────────────── */
+    .kontakt { background: var(--navy); color: var(--white); }
+    .kontakt-grid { display: grid; gap: 40px; margin-top: 52px; }
+    .kontakt-info { display: flex; flex-direction: column; gap: 20px; }
+    .k-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 20px; background: rgba(255,255,255,.05);
+      border: 1px solid var(--line); border-radius: var(--r);
+    }
+    .k-item svg { width: 22px; height: 22px; color: var(--red2); flex-shrink: 0; margin-top: 2px; }
+    .k-item strong { display: block; color: var(--white); font-weight: 700; margin-bottom: 3px; }
+    .k-item span, .k-item a { color: rgba(255,255,255,.55); font-size: .93rem; }
+    .k-item a:hover { color: var(--red2); }
+    /* Form */
+    .form-card {
+      background: rgba(255,255,255,.04); border: 1px solid var(--line);
+      border-radius: 10px; padding: 32px;
+    }
+    .form-grid { display: grid; gap: 16px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-weight: 600; font-size: .88rem; color: rgba(255,255,255,.8); }
+    .field input, .field textarea {
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--r); padding: 13px 16px; color: var(--white);
+      transition: border-color var(--ease), background var(--ease);
+    }
+    .field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,.25); }
+    .field input:focus, .field textarea:focus {
+      border-color: var(--red2); background: rgba(255,255,255,.1); outline: none;
+    }
+    .field textarea { min-height: 120px; resize: vertical; }
+    .form-submit { width: 100%; justify-content: center; }
+    .success-msg {
+      display: none; padding: 16px; background: rgba(46,160,67,.15);
+      border: 1px solid rgba(46,160,67,.3); border-radius: var(--r);
+      color: #4caf76; font-weight: 600; text-align: center;
+    }
+    .success-msg.show { display: block; }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    .footer {
+      background: rgba(10,12,22,1); color: rgba(255,255,255,.45);
+      border-top: 1px solid var(--line); padding: 40px 0;
+    }
+    .footer-inner {
+      display: flex; flex-direction: column; gap: 20px;
+      align-items: flex-start;
+    }
+    .footer .logo { font-size: 1.3rem; }
+    .footer-nav { display: flex; flex-wrap: wrap; gap: 6px; }
+    .footer-nav a {
+      padding: 7px 14px; border-radius: var(--r);
+      background: rgba(255,255,255,.04); color: rgba(255,255,255,.5);
+      font-size: .88rem; font-weight: 600;
+      transition: background var(--ease), color var(--ease);
+    }
+    .footer-nav a:hover { background: rgba(255,255,255,.09); color: var(--white); }
+    .footer-copy { font-size: .82rem; }
+
+    /* ─── REVEAL ANIMATIONS ──────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+      transition-delay: var(--d, 0ms);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (min-width: 640px) {
+      .usp-strip .wrap { grid-template-columns: repeat(3, 1fr); }
+      .usp-item { border-bottom: none; border-right: 1px solid var(--line); padding: 32px 28px; }
+      .usp-item:last-child { border-right: none; }
+      .price-bottom { grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 768px) {
+      .nav-links { display: flex; }
+      .burger { display: none; }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+      .feature-img { min-height: 500px; }
+      .hours-layout { grid-template-columns: 1fr 1fr; }
+      .kontakt-grid { grid-template-columns: 1fr 1.3fr; }
+      .footer-inner { flex-direction: row; align-items: center; justify-content: space-between; }
+    }
+    @media (min-width: 1024px) {
+      .cards { grid-template-columns: repeat(4, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAVBAR ─────────────────────────────────────────── -->
+  <header class="nav-wrap" id="navbar">
+    <div class="wrap nav">
+      <a href="#top" class="logo" aria-label="Fitness Bonaduz">Fitness <em>Bonaduz</em></a>
+      <nav class="nav-links" aria-label="Hauptnavigation">
+        <a href="#angebot">Angebot</a>
+        <a href="#preise">Preise</a>
+        <a href="#oeffnungszeiten">Öffnungszeiten</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="#kontakt" class="btn btn-red" style="padding: 0 18px; min-height: 44px; font-size: .9rem;">Probetraining anfragen</a>
+      </nav>
+      <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <a href="#angebot" class="drawer-link">Angebot</a>
+    <a href="#preise" class="drawer-link">Preise</a>
+    <a href="#oeffnungszeiten" class="drawer-link">Öffnungszeiten</a>
+    <a href="#kontakt" class="drawer-link">Kontakt</a>
+    <a href="#kontakt" class="btn btn-red drawer-link">Probetraining anfragen</a>
+  </div>
+
+  <main id="top">
+
+    <!-- ─── HERO ──────────────────────────────────────────── -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-img" id="heroBg"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-stripe"></div>
+      <div class="wrap hero-content">
+        <div class="hero-kicker">Familiengeführt · Bonaduz, Graubünden</div>
+        <h1 class="display">Ihr lokales<br>Fitness- &amp;<br>Wellnesscenter</h1>
+        <p class="hero-sub">Persönlich. Familiär. Seit über 37 Jahren.<br>Marco &amp; Suzanne Schmid heissen Sie herzlich willkommen.</p>
+        <div class="hero-actions">
+          <a href="#kontakt" class="btn btn-red">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.7.6 2.5a2 2 0 0 1-.5 2.1L8 9.5a16 16 0 0 0 6.5 6.5l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.6.5 2.5.6a2 2 0 0 1 1.7 2Z"/></svg>
+            Probetraining anfragen
+          </a>
+          <a href="#angebot" class="btn btn-ghost">Angebot entdecken</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>37+</strong>
+            <span>Jahre Erfahrung</span>
+          </div>
+          <div class="hero-stat">
+            <strong>4</strong>
+            <span>Angebotsbereiche</span>
+          </div>
+          <div class="hero-stat">
+            <strong>7</strong>
+            <span>Tage geöffnet</span>
+          </div>
+        </div>
+      </div>
+      <a href="#angebot" class="scroll-cue" aria-label="Nach unten scrollen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        <span>Scrollen</span>
+      </a>
+    </section>
+
+    <!-- ─── USP STRIP ──────────────────────────────────────── -->
+    <section class="usp-strip" aria-label="Vorteile">
+      <div class="wrap">
+        <div class="usp-item reveal">
+          <div class="usp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 11a4 4 0 1 0-8 0M5 21a7 7 0 0 1 14 0"/><path d="M18 8l2 2 3-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <strong>Persönliche Betreuung</strong>
+            <span>Individuelle Trainingseinführung &amp; nahbare Begleitung</span>
+          </div>
+        </div>
+        <div class="usp-item reveal" style="--d:80ms">
+          <div class="usp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <strong>Über 37 Jahre Erfahrung</strong>
+            <span>Kompetenz von Marco &amp; Suzanne Schmid</span>
+          </div>
+        </div>
+        <div class="usp-item reveal" style="--d:160ms">
+          <div class="usp-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 7v6c0 5 3.4 7.7 8 8 4.6-.3 8-3 8-8V7l-8-4Z"/><path d="m9 12 2 2 4-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <strong>Krankenkassen anerkannt</strong>
+            <span>Von verschiedenen Krankenkassen anerkannt</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── ANGEBOT ────────────────────────────────────────── -->
+    <section class="section angebot" id="angebot">
+      <div class="wrap">
+        <div class="angebot-header reveal">
+          <p class="section-tag label">Angebot</p>
+          <h2 class="display section-h">Training, Kurse<br>&amp; Wellness</h2>
+          <p class="section-lead">Fitness Bonaduz verbindet moderne Trainingsmöglichkeiten mit einer persönlichen, familiären Atmosphäre.</p>
+        </div>
+        <div class="cards">
+          <!-- Kraft & Ausdauer -->
+          <article class="card reveal">
+            <div class="card-img">
+              <img src="https://files.web.host.ch/metanet5221/image/p1040222.jpg" alt="Kraft und Ausdauer Geräte" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12" stroke-linecap="round"/></svg>
+              </div>
+              <h3>Kraft &amp; Ausdauer</h3>
+              <p>Gerätepark und Technogym Zirkeltraining (Easy Line), individuelle Trainingseinführung und Sensopro. Für Kraft, Ausdauer, Beweglichkeit, Koordination und Gleichgewicht.</p>
+              <a href="#kontakt" class="card-link">
+                Probetraining buchen
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </article>
+          <!-- Gruppenkurse -->
+          <article class="card reveal" style="--d:80ms">
+            <div class="card-img">
+              <img src="https://files.web.host.ch/metanet5221/image/p1040297.jpg" alt="Gruppenkurse" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="18" cy="7" r="3"/><path d="M21 21v-2a4 4 0 0 0-2-3.5" stroke-linecap="round"/></svg>
+              </div>
+              <h3>Gruppenkurse &amp; Spinning</h3>
+              <p>Geführte Gruppenkurse in motivierender Atmosphäre. Spinning-Saison: Ende Oktober bis ca. Ende März. Reduzierter Stundenplan: Mai, Juni, September.</p>
+              <a href="#kontakt" class="card-link">
+                Mehr erfahren
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </article>
+          <!-- Wellness -->
+          <article class="card reveal" style="--d:160ms">
+            <div class="card-img">
+              <img src="https://files.web.host.ch/metanet5221/image/p1040335.jpg" alt="Wellness" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10"/><path d="M12 6v6l3 3M22 2l-5 5M17 2h5v5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h3>Wellness</h3>
+              <p>Erholen und regenerieren im Wellness-Bereich. Kombinierbar mit allen Abonnements – als eigenständiges Angebot oder perfekte Ergänzung zum Training.</p>
+              <a href="#kontakt" class="card-link">
+                Mehr erfahren
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </article>
+          <!-- Easy Line -->
+          <article class="card reveal" style="--d:240ms">
+            <div class="card-img">
+              <img src="https://files.web.host.ch/metanet5221/image/p1040289.jpg" alt="Easy Line Circuit Training" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+              </div>
+              <h3>Easy Line – Circuit</h3>
+              <p>Zirkel-Training für alle Fitnesslevel mit Technogym Easy Line Geräten. Alle Easy Line Abos beinhalten Gruppenkurse. Fachkundige Betreuung inklusive.</p>
+              <a href="#kontakt" class="card-link">
+                Mehr erfahren
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Gallery strip with arrows -->
+        <div class="gallery-wrap reveal" style="--d:100ms">
+          <button class="gallery-arrow prev" id="galleryPrev" aria-label="Zurück">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="gallery-strip" id="galleryStrip">
+            <img src="https://files.web.host.ch/metanet5221/image/p1040342.jpg" alt="Fitness Bonaduz Innenansicht" loading="lazy">
+            <img src="https://files.web.host.ch/metanet5221/image/p1040324.jpg" alt="Trainingsgeräte" loading="lazy">
+            <img src="https://files.web.host.ch/metanet5221/image/p1040322.jpg" alt="Fitnessraum" loading="lazy">
+            <img src="https://files.web.host.ch/metanet5221/image/p1040319.jpg" alt="Ausdauergeräte" loading="lazy">
+            <img src="https://files.web.host.ch/metanet5221/image/p1040292.jpg" alt="Gruppenraum" loading="lazy">
+            <img src="https://files.web.host.ch/metanet5221/image/p1040266.jpg" alt="Wellness" loading="lazy">
+            <img src="https://files.web.host.ch/metanet5221/image/p1040248.jpg" alt="Kurs" loading="lazy">
+            <img src="https://files.web.host.ch/metanet5221/image/p1040229.jpg" alt="Geräte" loading="lazy">
+            <img src="https://files.web.host.ch/metanet5221/image/p1040220.jpg" alt="Training" loading="lazy">
+          </div>
+          <button class="gallery-arrow next" id="galleryNext" aria-label="Weiter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── FEATURE (37 Jahre) ─────────────────────────────── -->
+    <section class="feature">
+      <div class="feature-grid">
+        <div class="feature-img">
+          <img src="https://files.web.host.ch/metanet5221/image/p1040248.jpg" alt="Marco und Suzanne Schmid – Fitness Bonaduz" loading="lazy">
+        </div>
+        <div class="feature-body">
+          <p class="section-tag label">Seit 1987</p>
+          <h2 class="display section-h" style="color:var(--white)">Über 37 Jahre<br>Erfahrung &amp;<br>Leidenschaft</h2>
+          <p class="section-lead">Als lokales, persönlich und familiär geführtes Fitness- und Wellnesscenter heissen wir Sie herzlich willkommen. Ihren Voraussetzungen entsprechend erstellen wir Ihren individuellen Trainingsplan.</p>
+          <div class="feature-tel">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.7.6 2.5a2 2 0 0 1-.5 2.1L8 9.5a16 16 0 0 0 6.5 6.5l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.6.5 2.5.6a2 2 0 0 1 1.7 2Z"/></svg>
+            <div>
+              <strong><a href="tel:+41816412600" style="color:var(--white)">081 641 26 00</a></strong>
+              <span>Obere Bahnhofstrasse 15, 7402 Bonaduz</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PREISE ─────────────────────────────────────────── -->
+    <section class="section preise" id="preise">
+      <div class="wrap">
+        <div class="reveal">
+          <p class="section-tag label">Preise</p>
+          <h2 class="display section-h">Abonnemente &amp;<br>Kombinationen</h2>
+          <p class="section-lead">Flexible Angebote für jeden Bedarf. Alle Preise in CHF.</p>
+          <div class="kk-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 7v6c0 5 3.4 7.7 8 8 4.6-.3 8-3 8-8V7l-8-4Z"/><path d="m9 12 2 2 4-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Von verschiedenen Krankenkassen anerkannt
+          </div>
+        </div>
+        <div class="preise-grid" style="display:block">
+          <!-- Single unified scrollable table -->
+          <div class="price-mega reveal">
+            <div class="price-mega-head">
+              Alle Abonnemente &amp; Kombinationen
+              <span>Alle Preise in CHF</span>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="price-table">
+                <thead>
+                  <tr>
+                    <th>Angebot</th>
+                    <th>12 Monate</th>
+                    <th>6 Monate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="section-row"><td colspan="3">Kraft &amp; Ausdauer</td></tr>
+                  <tr><td>Kraft/Ausdauer</td><td>CHF 780</td><td>CHF 595</td></tr>
+                  <tr><td>Kraft/Ausdauer &amp; Spinning*</td><td>CHF 825</td><td>CHF 675</td></tr>
+                  <tr><td>Kraft/Ausdauer &amp; Gruppenkurse*</td><td>CHF 810</td><td>CHF 635</td></tr>
+                  <tr><td>Kraft/Ausdauer &amp; Spinning* &amp; Gruppenkurse*</td><td>CHF 505</td><td>CHF 410</td></tr>
+                  <tr><td>Kraft/Ausdauer &amp; Wellness</td><td>CHF 975</td><td>CHF 775</td></tr>
+
+                  <tr class="section-row"><td colspan="3">Wellness</td></tr>
+                  <tr><td>Wellness</td><td>CHF 595</td><td>CHF 480</td></tr>
+                  <tr><td>Wellness &amp; Spinning*</td><td>CHF 825</td><td>CHF 670</td></tr>
+                  <tr><td>Wellness &amp; Spinning &amp; Gruppenkurse*</td><td>CHF 845</td><td>CHF 700</td></tr>
+
+                  <tr class="section-row"><td colspan="3">Gruppenkurse &amp; Wellness</td></tr>
+                  <tr><td>Gruppenkurse &amp; Wellness</td><td>CHF 795</td><td>CHF 610</td></tr>
+
+                  <tr class="section-row"><td colspan="3">Easy Line – Zirkel-Training (inkl. Gruppenkurse)</td></tr>
+                  <tr><td>Easy Line</td><td>CHF 610</td><td>CHF 470</td></tr>
+                  <tr><td>Easy Line &amp; Spinning</td><td>CHF 655</td><td>CHF 500</td></tr>
+                  <tr><td>Easy Line &amp; Ausdauer</td><td>CHF 710</td><td>CHF 560</td></tr>
+                  <tr><td>Easy Line &amp; Kraft/Ausdauer</td><td>CHF 895</td><td>CHF 715</td></tr>
+                  <tr><td>Easy Line &amp; Wellness</td><td>CHF 905</td><td>CHF 720</td></tr>
+                  <tr><td>Easy Line &amp; Spinning &amp; Wellness</td><td>CHF 925</td><td>CHF 725</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Bottom: Ermässigungen + Punktekarten side by side -->
+          <div class="price-bottom reveal" style="--d:80ms">
+            <div class="price-info-card">
+              <div class="pic-head">Ermässigungen</div>
+              <div class="pic-body">
+                <ul>
+                  <li>Schüler ab 16 J., Lehrlinge, AHV-Bezüger: <strong style="color:var(--navy)">10%</strong> (12 Monate) / <strong style="color:var(--navy)">5%</strong> (6 Monate)</li>
+                  <li>Ehepaare / Konkubinatspartner: <strong style="color:var(--navy)">10%</strong> (12 Monate) / <strong style="color:var(--navy)">5%</strong> (6 Monate)</li>
+                  <li>Tagesabonnement (bis 17:30 Uhr): <strong style="color:var(--navy)">10%</strong> (12 Monate) / <strong style="color:var(--navy)">5%</strong> (6 Monate)</li>
+                </ul>
+                <p style="font-size:.82rem;color:var(--muted);margin-top:12px">Rabatte nicht kumulierbar.</p>
+              </div>
+            </div>
+            <div class="price-info-card">
+              <div class="pic-head">10er-Punktekarten <span style="font-weight:400;font-size:.8rem;color:rgba(255,255,255,.45)">1 Jahr gültig · persönlich · nicht übertragbar</span></div>
+              <div class="pic-body">
+                <div class="ticket-row"><span>Gruppenkurse / Spinning</span><strong>CHF 220</strong></div>
+                <div class="ticket-row"><span>Wellness</span><strong>CHF 390</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="price-fn reveal">* Mai, Juni und September mit reduziertem Gruppenkurs-Stundenplan. Juli und August keine Lektionen. Spinning-Saison: Ende Oktober bis ca. Ende März.</p>
+      </div>
+    </section>
+
+    <!-- ─── ÖFFNUNGSZEITEN ─────────────────────────────────── -->
+    <section class="section hours" id="oeffnungszeiten">
+      <div class="wrap">
+        <div class="reveal">
+          <p class="section-tag label">Öffnungszeiten</p>
+          <h2 class="display section-h">7 Tage pro Woche<br>für Sie da</h2>
+          <p class="section-lead">Trainieren wann es passt – von früh bis spät, an jedem Tag der Woche.</p>
+        </div>
+        <div class="hours-layout">
+          <div class="hours-card reveal">
+            <div class="hours-head">Öffnungszeiten</div>
+            <div class="hours-body">
+              <div class="hours-row" id="row-mofr">
+                <span class="day">Montag – Freitag</span>
+                <span class="time">08:30 – 21:00 Uhr</span>
+              </div>
+              <div class="hours-row" id="row-sa">
+                <span class="day">Samstag</span>
+                <span class="time">08:30 – 17:30 Uhr</span>
+              </div>
+              <div class="hours-row" id="row-so">
+                <span class="day">Sonntag</span>
+                <span class="time">08:30 – 17:30 Uhr</span>
+              </div>
+              <div class="hours-row">
+                <span class="day">Feiertage</span>
+                <span class="time">08:30 – 17:30 Uhr</span>
+              </div>
+              <div class="hours-row" style="background:rgba(212,43,58,.04); border:none">
+                <span style="font-size:.84rem;color:var(--muted)">Keine Gruppenkurse an Feiertagen</span>
+              </div>
+            </div>
+          </div>
+          <div class="hours-card reveal" style="--d:80ms">
+            <div class="hours-head">Stundenübersicht</div>
+            <div class="bar-chart">
+              <!-- 06:00–22:00 = 16h range. 08:30 = 15.6% offset. 21:00 = 93.75%. 17:30 = 71.875% -->
+              <div class="bar-row">
+                <span class="bar-label">Mo–Fr</span>
+                <div class="bar-track">
+                  <div class="bar-fill" style="--s:15.6%;--w:78.1%"></div>
+                </div>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">Samstag</span>
+                <div class="bar-track">
+                  <div class="bar-fill" style="--s:15.6%;--w:56.25%"></div>
+                </div>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">Sonntag</span>
+                <div class="bar-track">
+                  <div class="bar-fill" style="--s:15.6%;--w:56.25%"></div>
+                </div>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">Feiertag</span>
+                <div class="bar-track">
+                  <div class="bar-fill" style="--s:15.6%;--w:56.25%"></div>
+                </div>
+              </div>
+              <div class="bar-times">
+                <span>06:00</span><span>10:00</span><span>14:00</span><span>18:00</span><span>22:00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── KONTAKT ───────────────────────────────────────── -->
+    <section class="section kontakt" id="kontakt">
+      <div class="wrap">
+        <div class="reveal">
+          <p class="section-tag label" style="color:var(--red2)">Kontakt</p>
+          <h2 class="display section-h" style="color:var(--white)">Probetraining<br>anfragen</h2>
+          <p class="section-lead" style="color:rgba(255,255,255,.5)">Schreiben Sie uns – wir melden uns persönlich bei Ihnen.</p>
+        </div>
+        <div class="kontakt-grid">
+          <div class="kontakt-info reveal">
+            <div class="k-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.7.6 2.5a2 2 0 0 1-.5 2.1L8 9.5a16 16 0 0 0 6.5 6.5l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.6.5 2.5.6a2 2 0 0 1 1.7 2Z"/></svg>
+              <div>
+                <strong>Telefon</strong>
+                <a href="tel:+41816412600">081 641 26 00</a>
+              </div>
+            </div>
+            <div class="k-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-4.4 7-11A7 7 0 1 0 5 10c0 6.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2"/></svg>
+              <div>
+                <strong>Adresse</strong>
+                <span>Obere Bahnhofstrasse 15<br>7402 Bonaduz<br><span style="font-size:.82rem;color:rgba(255,255,255,.35)">Gegenüber Bahnhof Bonaduz · Eingang via Bahnstrasse</span></span>
+              </div>
+            </div>
+            <div class="k-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <div>
+                <strong>E-Mail</strong>
+                <a href="mailto:info@fitnessbonaduz.ch">info@fitnessbonaduz.ch</a>
+              </div>
+            </div>
+            <div class="k-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 11a4 4 0 1 0-8 0M5 21a7 7 0 0 1 14 0"/></svg>
+              <div>
+                <strong>Betreiber</strong>
+                <span>Marco &amp; Suzanne Schmid</span>
+              </div>
+            </div>
+            <div class="k-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 7v6c0 5 3.4 7.7 8 8 4.6-.3 8-3 8-8V7l-8-4Z"/><path d="m9 12 2 2 4-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div>
+                <strong>Krankenkasse</strong>
+                <span>Von verschiedenen Krankenkassen anerkannt</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-card reveal" style="--d:100ms">
+            <div id="successMsg" class="success-msg">✓ Danke für Ihre Anfrage! Wir melden uns bald bei Ihnen.</div>
+            <div class="form-grid" id="contactForm">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                <div class="field">
+                  <label for="fname">Name *</label>
+                  <input type="text" id="fname" name="name" required autocomplete="name" placeholder="Max Muster">
+                </div>
+                <div class="field">
+                  <label for="ftel">Telefon</label>
+                  <input type="tel" id="ftel" name="tel" autocomplete="tel" placeholder="079 000 00 00">
+                </div>
+              </div>
+              <div class="field">
+                <label for="femail">E-Mail *</label>
+                <input type="email" id="femail" name="email" required autocomplete="email" placeholder="max@muster.ch">
+              </div>
+              <div class="field">
+                <label for="fmsg">Nachricht</label>
+                <textarea id="fmsg" name="message" placeholder="Ich interessiere mich für ein Probetraining und möchte mehr über Ihre Angebote erfahren…"></textarea>
+              </div>
+              <button type="button" class="btn btn-red form-submit" id="formBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Anfrage senden
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── FOOTER ────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <a href="#top" class="logo">Fitness <em>Bonaduz</em></a>
+        <p style="margin-top:8px;font-size:.85rem">Persönlich. Familiär. Seit über 37 Jahren.</p>
+        <p style="margin-top:4px;font-size:.82rem;color:rgba(255,255,255,.35)">Obere Bahnhofstrasse 15 · 7402 Bonaduz · <a href="mailto:info@fitnessbonaduz.ch" style="color:rgba(255,255,255,.35)">info@fitnessbonaduz.ch</a></p>
+        <p class="footer-copy" style="margin-top:6px">© 2025 Fitness Bonaduz – Marco &amp; Suzanne Schmid, Bonaduz</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer Navigation">
+        <a href="#angebot">Angebot</a>
+        <a href="#preise">Preise</a>
+        <a href="#oeffnungszeiten">Öffnungszeiten</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // ── Navbar scroll ──────────────────────────────────────────
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('solid', window.scrollY > 40);
+    }, { passive: true });
+
+    // ── Hero image loaded animation ────────────────────────────
+    const heroBg = document.getElementById('heroBg');
+    const img = new Image();
+    img.onload = () => heroBg.classList.add('loaded');
+    img.src = 'https://files.web.host.ch/metanet5221/image/p1040334.jpg';
+
+    // ── Mobile burger ──────────────────────────────────────────
+    const burger = document.getElementById('burger');
+    const drawer = document.getElementById('drawer');
+    function toggleMenu(open) {
+      burger.classList.toggle('active', open);
+      drawer.classList.toggle('open', open);
+      drawer.setAttribute('aria-hidden', String(!open));
+      document.body.classList.toggle('no-scroll', open);
+      burger.setAttribute('aria-expanded', String(open));
+    }
+    burger.addEventListener('click', () => toggleMenu(!drawer.classList.contains('open')));
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+    // ── Highlight today's opening hours ───────────────────────
+    const day = new Date().getDay();
+    if (day >= 1 && day <= 5) document.getElementById('row-mofr')?.classList.add('today');
+    else if (day === 6) document.getElementById('row-sa')?.classList.add('today');
+    else if (day === 0) document.getElementById('row-so')?.classList.add('today');
+
+    // ── Intersection Observer reveal ───────────────────────────
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => obs.observe(el));
+
+    // ── Contact form ───────────────────────────────────────────
+    document.getElementById('formBtn').addEventListener('click', () => {
+      const name = document.getElementById('fname');
+      const email = document.getElementById('femail');
+      let valid = true;
+      if (!name.value.trim()) { name.style.borderColor = 'var(--red2)'; valid = false; }
+      if (!email.value.trim() || !email.validity.valid) { email.style.borderColor = 'var(--red2)'; valid = false; }
+      if (!valid) return;
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('successMsg').classList.add('show');
+    });
+    ['fname','femail'].forEach(id => {
+      document.getElementById(id).addEventListener('input', function() {
+        this.style.borderColor = '';
+      });
+    });
+
+    // ── Gallery arrows ─────────────────────────────────────────
+    const strip = document.getElementById('galleryStrip');
+    const scrollAmt = () => strip.querySelector('img').offsetWidth + 8;
+    document.getElementById('galleryPrev').addEventListener('click', () => {
+      strip.scrollBy({ left: -scrollAmt(), behavior: 'smooth' });
+    });
+    document.getElementById('galleryNext').addEventListener('click', () => {
+      strip.scrollBy({ left: scrollAmt(), behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
